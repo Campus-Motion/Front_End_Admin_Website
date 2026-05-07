@@ -1,0 +1,109 @@
+/* ── Audit table specifics ─────────────────────── */
+
+.audit-table { min-width: 900px; }
+
+/* Faint red tint on failed rows */
+.audit-table tbody tr.row-failed td {
+  background: color-mix(in oklch, var(--color-danger-bg) 40%, transparent);
+}
+.audit-table tbody tr.row-failed:hover td {
+  background: color-mix(in oklch, var(--color-danger-bg) 60%, transparent);
+}
+
+/* Time column — monospaced, compact */
+.audit-time {
+  white-space: nowrap;
+  font-size: var(--text-xs) !important;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Endpoint cell */
+.audit-endpoint {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 160px;
+  max-width: 260px;
+}
+.audit-path {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* IP address */
+.audit-ip {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-xs) !important;
+  white-space: nowrap;
+}
+
+/* User-agent toggle */
+.audit-agent-toggle {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-primary);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.audit-agent-toggle:hover { color: var(--color-primary-hover); }
+
+.audit-agent {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  max-width: 200px;
+  word-break: break-all;
+  line-height: 1.4;
+}
+
+/* JSON diff viewer */
+.diff-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  color: var(--color-primary);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.diff-toggle:hover {
+  background: var(--color-primary-highlight);
+  border-color: var(--color-primary);
+}
+
+.diff-pre {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-offset);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-width: 280px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* Empty state inside table */
+.audit-empty {
+  text-align: center !important;
+  color: var(--color-text-muted);
+  padding: var(--space-10) var(--space-4) !important;
+  font-size: var(--text-sm);
+}

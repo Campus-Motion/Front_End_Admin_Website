@@ -1,0 +1,82 @@
+/* ── News article card ─────────────────────────── */
+
+.news-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Cover photo */
+.news-card-cover {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: var(--color-surface-offset);
+}
+.news-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 300ms ease;
+}
+.news-card:hover .news-card-cover img {
+  transform: scale(1.02);
+}
+
+/* Card body */
+.news-card-top {
+  padding: var(--space-4) var(--space-5) var(--space-3);
+}
+
+.news-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.news-card-title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+  line-height: 1.3;
+}
+
+.news-card-body {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: none;
+}
+
+/* Photo upload panel — slides in below the text */
+.news-card-photo-panel {
+  padding: 0 var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-divider);
+  margin-top: var(--space-3);
+  padding-top: var(--space-4);
+}
+
+/* Actions row */
+.news-card-actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-divider);
+  flex-wrap: wrap;
+}
+
+/* Tip text in the create form */
+.news-form-tip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-offset);
+  border-radius: var(--radius-md);
+}

@@ -1,0 +1,368 @@
+/* ============================================
+   APP SHELL LAYOUT
+   ============================================ */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100dvh;
+}
+
+/* Topbar */
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  height: 56px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.topbar-logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.topbar-brand {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.topbar-brand span {
+  color: var(--color-primary);
+}
+
+.topbar-admin-tag {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  padding: 2px var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.topbar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.topbar-user strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.topbar-role {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  background: var(--color-primary-highlight);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-divider);
+  padding: var(--space-5) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: sticky;
+  top: 56px;
+  height: calc(100dvh - 56px);
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  padding: var(--space-2) var(--space-3) var(--space-1);
+}
+
+.sidebar-section-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav-item:hover {
+  background: var(--color-surface-offset);
+  color: var(--color-text);
+}
+
+.nav-item.active {
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.nav-item svg {
+  flex-shrink: 0;
+}
+
+.nav-item-count {
+  margin-left: auto;
+  background: var(--color-surface-offset);
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-full);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-item.active .nav-item-count {
+  background: color-mix(in oklch, var(--color-primary) 20%, transparent);
+  color: var(--color-primary);
+}
+
+/* ============================================
+   MAIN CONTENT — must not overflow the grid cell
+   ============================================ */
+
+.main-content {
+  /* Key fix: min-width:0 prevents the grid cell from
+     expanding beyond its allocated column */
+  min-width: 0;
+  padding: var(--space-8);
+  overflow-x: hidden;
+}
+
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+.page-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+.page-subtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  max-width: none;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid oklch(from var(--color-text) l c h / 0.08);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.stat-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  margin-top: var(--space-1);
+}
+
+/* ============================================
+   TWO-COLUMN PANEL LAYOUT
+   Key fixes:
+   - Left col: fixed width, doesn't grow
+   - Right col: 1fr but min-width:0 so it never overflows
+   - align-items: start so form doesn't stretch to table height
+   ============================================ */
+.panel-2col {
+  display: grid;
+  grid-template-columns: 550px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* Right column container — must clip, not grow */
+.panel-2col>*:last-child {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ============================================
+   TABLE WRAPPER — always scrolls horizontally
+   instead of pushing the layout
+   ============================================ */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-2);
+  /* Contain the scroll to this element only */
+  max-width: 100%;
+}
+
+/* ============================================
+   SECTION HEADER — prevent wrapping issues
+   ============================================ */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  /* Prevent the right side actions from wrapping
+     and pushing the header to two lines */
+  flex-wrap: nowrap;
+}
+
+.section-header>div:first-child {
+  min-width: 0;
+}
+
+.section-header h2 {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-top: var(--space-1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* At 1200px the two-col layout switches to single column.
+   The previous threshold of 1100px was too wide — with a 240px
+   sidebar the actual content area is much narrower. */
+@media (max-width: 1200px) {
+  .panel-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row-3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+  }
+
+  .sidebar {
+    grid-row: 2;
+    height: auto;
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: var(--space-3);
+    border-right: none;
+    border-bottom: 1px solid var(--color-divider);
+    overflow-x: auto;
+  }
+
+  .sidebar-section {
+    display: none;
+  }
+
+  .main-content {
+    padding: var(--space-5) var(--space-4);
+    min-width: 0;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form-row,
+  .form-row-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar-user .topbar-role {
+    display: none;
+  }
+
+  .main-content {
+    padding: var(--space-4);
+  }
+}

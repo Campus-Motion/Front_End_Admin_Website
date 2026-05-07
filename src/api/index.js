@@ -1,0 +1,5 @@
+export { authApi }      from './auth'
+export { newsApi }      from './news'
+export { eventsApi }    from './events'
+export { adminApi }     from './admin'
+export { locationsApi } from './locations'

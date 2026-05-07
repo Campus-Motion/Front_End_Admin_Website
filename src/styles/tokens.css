@@ -1,0 +1,139 @@
+/* ============================================
+   CAMPUS MOTION — Design Tokens
+   Palette: warm beige surfaces + terra cotta accent
+   Mirrors the public-facing feed site
+   ============================================ */
+
+:root, [data-theme="light"] {
+  /* Surfaces — warm parchment */
+  --color-bg:               #edeae3;
+  --color-surface:          #f0ede6;
+  --color-surface-2:        #f4f2ec;
+  --color-surface-offset:   #e6e2da;
+  --color-surface-dynamic:  #dedad1;
+  --color-divider:          #d5d0c7;
+  --color-border:           #ccc7bc;
+
+  /* Text */
+  --color-text:             #1e1c18;
+  --color-text-muted:       #6b6860;
+  --color-text-faint:       #a8a59f;
+  --color-text-inverse:     #f4f2ec;
+
+  /* Primary accent — campus terra cotta */
+  --color-primary:          #b04231;
+  --color-primary-hover:    #8e3224;
+  --color-primary-active:   #6d2418;
+  --color-primary-highlight:#f0dbd7;
+
+  /* Success */
+  --color-success:          #3a6b20;
+  --color-success-bg:       #d8edcd;
+
+  /* Warning */
+  --color-warning:          #8a5a00;
+  --color-warning-bg:       #faefd8;
+
+  /* Danger */
+  --color-danger:           #922020;
+  --color-danger-bg:        #fde8e8;
+
+  /* Radius */
+  --radius-sm:  0.375rem;
+  --radius-md:  0.625rem;
+  --radius-lg:  0.875rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 1.75rem;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Type */
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.8125rem);
+  --text-sm:   clamp(0.875rem, 0.82rem + 0.28vw, 0.9375rem);
+  --text-base: clamp(1rem,     0.96rem + 0.2vw,  1.0625rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.6vw,  1.375rem);
+  --text-xl:   clamp(1.375rem, 1.1rem  + 1.2vw,  2rem);
+  --text-2xl:  clamp(1.75rem,  1.2rem  + 2.2vw,  3rem);
+
+  /* Shadows */
+  --shadow-xs:  0 1px 2px oklch(0.18 0.02 55 / 0.06);
+  --shadow-sm:  0 2px 6px oklch(0.18 0.02 55 / 0.08);
+  --shadow-md:  0 4px 16px oklch(0.18 0.02 55 / 0.1);
+  --shadow-lg:  0 12px 40px oklch(0.18 0.02 55 / 0.14);
+
+  /* Transitions */
+  --transition: 160ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --content-default: 1120px;
+  --sidebar-width: 240px;
+
+  /* Font families */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+[data-theme="dark"] {
+  --color-bg:               #1a1916;
+  --color-surface:          #1f1e1b;
+  --color-surface-2:        #242320;
+  --color-surface-offset:   #2a2926;
+  --color-surface-dynamic:  #302f2c;
+  --color-divider:          #3a3935;
+  --color-border:           #44433f;
+  --color-text:             #e8e5df;
+  --color-text-muted:       #9a9791;
+  --color-text-faint:       #5e5d59;
+  --color-text-inverse:     #1a1916;
+  --color-primary:          #d9714f;
+  --color-primary-hover:    #e08060;
+  --color-primary-active:   #ea9070;
+  --color-primary-highlight:#3d2620;
+  --color-success:          #5ba03a;
+  --color-success-bg:       #1e3212;
+  --color-warning:          #c89030;
+  --color-warning-bg:       #2e2410;
+  --color-danger:           #e05050;
+  --color-danger-bg:        #301414;
+  --shadow-xs:  0 1px 2px oklch(0 0 0 / 0.25);
+  --shadow-sm:  0 2px 6px oklch(0 0 0 / 0.3);
+  --shadow-md:  0 4px 16px oklch(0 0 0 / 0.4);
+  --shadow-lg:  0 12px 40px oklch(0 0 0 / 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg:               #1a1916;
+    --color-surface:          #1f1e1b;
+    --color-surface-2:        #242320;
+    --color-surface-offset:   #2a2926;
+    --color-surface-dynamic:  #302f2c;
+    --color-divider:          #3a3935;
+    --color-border:           #44433f;
+    --color-text:             #e8e5df;
+    --color-text-muted:       #9a9791;
+    --color-text-faint:       #5e5d59;
+    --color-text-inverse:     #1a1916;
+    --color-primary:          #d9714f;
+    --color-primary-hover:    #e08060;
+    --color-primary-active:   #ea9070;
+    --color-primary-highlight:#3d2620;
+    --color-success:          #5ba03a;
+    --color-success-bg:       #1e3212;
+    --color-warning:          #c89030;
+    --color-warning-bg:       #2e2410;
+    --color-danger:           #e05050;
+    --color-danger-bg:        #301414;
+  }
+}
