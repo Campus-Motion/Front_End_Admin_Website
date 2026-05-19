@@ -2,8 +2,14 @@ import { useState } from "react";
 import { newsApi } from "../../api";
 import { Badge } from "../ui/Badge";
 import { ConfirmDialog } from "../ui/ConfirmDialog";
+import { EditDrawer } from "../ui/EditDrawer";
 import { Icon } from "../ui/Icons";
 import { PhotoUploader } from "./PhotoUploader";
+import { NewsEditForm } from "./NewsEditForm";
+
+const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const toAbsolute = (url) =>
+  !url || url.startsWith("http") ? url : `${BASE_URL}${url}`;
 
 function fmt(v) {
   return v
@@ -19,16 +25,16 @@ function excerpt(s, max = 160) {
 }
 
 export function NewsList({ items, onRefresh }) {
-  const [confirm, setConfirm] = useState(null); // { id, title }
-  const [toggling, setToggling] = useState(null); // item.id currently toggling
-  const [expanded, setExpanded] = useState(null); // item.id with photo panel open
-  // Track current photourl per-item so preview updates without a full refresh
+  const [confirm, setConfirm] = useState(null);
+  const [toggling, setToggling] = useState(null);
+  const [photoOpen, setPhotoOpen] = useState(null); // item.id
+  const [editOpen, setEditOpen] = useState(null); // full item object
   const [photos, setPhotos] = useState({});
 
   const handleToggle = async (item) => {
     setToggling(item.id);
     try {
-      await newsApi.update(item.id, { is_published: !item.is_published });
+      await newsApi.update(item.id, { ispublished: !item.ispublished });
     } catch {
     } finally {
       setToggling(null);
@@ -61,36 +67,30 @@ export function NewsList({ items, onRefresh }) {
       </div>
     );
   }
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
-  function toAbsolute(url) {
-    if (!url) return null;
-    if (url.startsWith("http")) return url;
-    return `${BASE_URL}${url}`;
-  }
 
   return (
     <>
       <div style={{ display: "grid", gap: "var(--space-3)" }}>
         {items.map((item) => {
-          const currentPhoto =
-            toAbsolute(photos[item.id]) ?? toAbsolute(item.photo_url) ?? null;
-          const isExpanded = expanded === item.id;
+          const currentPhoto = toAbsolute(
+            photos[item.id] ?? item.photo_url ?? null,
+          );
+          const isPhotoOpen = photoOpen === item.id;
 
           return (
             <article key={item.id} className="news-card card">
-              {/* ── cover photo thumbnail ── */}
+              {/* Cover photo */}
               {currentPhoto && (
                 <div className="news-card-cover">
                   <img src={currentPhoto} alt="" loading="lazy" />
                 </div>
               )}
 
-              {/* ── header ── */}
+              {/* Header */}
               <div className="news-card-top">
                 <div className="news-card-meta">
-                  <Badge variant={item.is_published ? "published" : "draft"}>
-                    {item.is_published ? "Published" : "Draft"}
+                  <Badge variant={item.ispublished ? "published" : "draft"}>
+                    {item.ispublished ? "Published" : "Draft"}
                   </Badge>
                   <span
                     style={{
@@ -98,15 +98,15 @@ export function NewsList({ items, onRefresh }) {
                       color: "var(--color-text-faint)",
                     }}
                   >
-                    {fmt(item.created_at)}
+                    {fmt(item.createdat)}
                   </span>
                 </div>
                 <h3 className="news-card-title">{item.title}</h3>
                 <p className="news-card-body">{excerpt(item.body)}</p>
               </div>
 
-              {/* ── photo upload panel (collapsible) ── */}
-              {isExpanded && (
+              {/* Photo upload panel */}
+              {isPhotoOpen && (
                 <div className="news-card-photo-panel">
                   <PhotoUploader
                     articleId={item.id}
@@ -116,32 +116,38 @@ export function NewsList({ items, onRefresh }) {
                 </div>
               )}
 
-              {/* ── actions ── */}
+              {/* Actions */}
               <div className="news-card-actions">
                 <button
                   className="btn btn-secondary btn-sm"
                   onClick={() => handleToggle(item)}
                   disabled={toggling === item.id}
                 >
-                  <Icon
-                    name={item.is_published ? "eye-off" : "eye"}
-                    size={13}
-                  />
-                  {item.is_published ? "Unpublish" : "Publish"}
+                  <Icon name={item.ispublished ? "eyeOff" : "eye"} size={13} />
+                  {item.ispublished ? "Unpublish" : "Publish"}
                 </button>
 
+                {/* Edit button → opens drawer */}
                 <button
-                  className={`btn btn-sm ${isExpanded ? "btn-primary" : "btn-ghost"}`}
-                  onClick={() => setExpanded(isExpanded ? null : item.id)}
-                  aria-expanded={isExpanded}
-                  aria-label="Toggle photo upload"
+                  className="btn btn-ghost btn-sm"
+                  onClick={() => setEditOpen(item)}
                 >
                   <Icon name="edit" size={13} />
+                  Edit
+                </button>
+
+                {/* Photo button */}
+                <button
+                  className={`btn btn-sm ${isPhotoOpen ? "btn-primary" : "btn-ghost"}`}
+                  onClick={() => setPhotoOpen(isPhotoOpen ? null : item.id)}
+                  aria-expanded={isPhotoOpen}
+                >
+                  <Icon name="image" size={13} />
                   {currentPhoto
-                    ? isExpanded
+                    ? isPhotoOpen
                       ? "Close photo"
-                      : "Change photo"
-                    : isExpanded
+                      : "Photo"
+                    : isPhotoOpen
                       ? "Close"
                       : "Add photo"}
                 </button>
@@ -159,6 +165,23 @@ export function NewsList({ items, onRefresh }) {
           );
         })}
       </div>
+
+      {/* News edit drawer */}
+      <EditDrawer
+        open={!!editOpen}
+        onClose={() => setEditOpen(null)}
+        title={editOpen ? `Edit — ${editOpen.title}` : "Edit article"}
+      >
+        {editOpen && (
+          <NewsEditForm
+            item={editOpen}
+            onSaved={() => {
+              setEditOpen(null);
+              onRefresh();
+            }}
+          />
+        )}
+      </EditDrawer>
 
       {confirm && (
         <ConfirmDialog

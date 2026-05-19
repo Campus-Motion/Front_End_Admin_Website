@@ -3,6 +3,15 @@
  * Usage: <Icon name="newspaper" size={18} />
  */
 const ICONS = {
+  close: (
+    <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+  ),
+  eyeOff: (
+    <><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" strokeLinecap="round" strokeLinejoin="round"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" strokeLinecap="round" strokeLinejoin="round"/><path d="M1 1l22 22" strokeLinecap="round" strokeLinejoin="round"/></>
+  ),
+  users: (
+    <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="9" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round"/><path d="M23 21v-2a4 4 0 0 0-3-3.87" strokeLinecap="round" strokeLinejoin="round"/><path d="M16 3.13a4 4 0 0 1 0 7.75" strokeLinecap="round" strokeLinejoin="round"/></>
+  ),
   newspaper: (
     <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2M18 14H10M18 10H10M15 18H10" strokeLinecap="round" strokeLinejoin="round"/>
   ),
@@ -59,6 +68,9 @@ const ICONS = {
   ),
   running: (
     <path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0ZM7.7 10.7 10 8l3 3 2-3 3 4M10 20l1-5-2-2 1-6" strokeLinecap="round" strokeLinejoin="round"/>
+  ),
+  image: (
+    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7M16 5h6m-3-3v6M21 15l-5-5L5 21" strokeLinecap="round" strokeLinejoin="round"/>
   ),
   search: (
     <path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0Z" strokeLinecap="round" strokeLinejoin="round"/>
