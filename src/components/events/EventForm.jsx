@@ -292,9 +292,9 @@ export function EventForm({ onCreated, initial, editMode = false }) {
             </label>
             <select
               id={`ev-sloc-${editMode}`}
-              name="startlocationid"
+              name="start_location_id"
               className="form-select"
-              value={form.startlocationid}
+              value={form.start_location_id}
               onChange={set}
               disabled={locationsLoading}
             >
@@ -320,9 +320,9 @@ export function EventForm({ onCreated, initial, editMode = false }) {
             </label>
             <select
               id={`ev-eloc-${editMode}`}
-              name="endlocationid"
+              name="end_location_id"
               className="form-select"
-              value={form.endlocationid}
+              value={form.end_location_id}
               onChange={set}
               disabled={locationsLoading}
             >
