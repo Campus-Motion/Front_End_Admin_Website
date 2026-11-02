@@ -21,7 +21,7 @@ export function NewsForm({ onCreated }) {
       await newsApi.create({
         title:       form.title.trim(),
         body:        form.body.trim(),
-        ispublished: false,
+        is_published: false,
       })
       setForm(EMPTY)
       setSuccess('Draft created. You can now add a photo from the article list.')

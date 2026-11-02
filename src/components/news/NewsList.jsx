@@ -34,7 +34,7 @@ export function NewsList({ items, onRefresh }) {
   const handleToggle = async (item) => {
     setToggling(item.id);
     try {
-      await newsApi.update(item.id, { ispublished: !item.ispublished });
+      await newsApi.update(item.id, { is_published: !item.is_published });
     } catch {
     } finally {
       setToggling(null);
@@ -89,8 +89,8 @@ export function NewsList({ items, onRefresh }) {
               {/* Header */}
               <div className="news-card-top">
                 <div className="news-card-meta">
-                  <Badge variant={item.ispublished ? "published" : "draft"}>
-                    {item.ispublished ? "Published" : "Draft"}
+                  <Badge variant={item.is_published ? "published" : "draft"}>
+                    {item.is_published ? "Published" : "Draft"}
                   </Badge>
                   <span
                     style={{
@@ -123,8 +123,8 @@ export function NewsList({ items, onRefresh }) {
                   onClick={() => handleToggle(item)}
                   disabled={toggling === item.id}
                 >
-                  <Icon name={item.ispublished ? "eyeOff" : "eye"} size={13} />
-                  {item.ispublished ? "Unpublish" : "Publish"}
+                  <Icon name={item.is_published ? "eyeOff" : "eye"} size={13} />
+                  {item.is_published ? "Unpublish" : "Publish"}
                 </button>
 
                 {/* Edit button → opens drawer */}
