@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { pointsPreviewEnabled } from './config/pointsPreview'
 import { authApi }        from './api'
 import { Login }          from './pages/Login'
 import { DashboardShell } from './pages/DashboardShell'
@@ -9,6 +10,11 @@ export default function App() {
   const [booting, setBooting] = useState(true)
 
   useEffect(() => {
+    if (pointsPreviewEnabled) {
+      setUser({ id: 100, username: 'Demo Admin', role: 'admin' })
+      setBooting(false)
+      return
+    }
     const token = localStorage.getItem('accesstoken')
     if (!token) { setBooting(false); return }
     authApi.getMe()

@@ -1,0 +1,12 @@
+.ticket-wheel { margin-top: var(--space-6); }
+.ticket-wheel-layout { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: var(--space-8); align-items: center; margin-top: var(--space-5); }
+.ticket-wheel-frame { position: relative; padding-top: 8px; }
+.ticket-wheel-disc { position: relative; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--color-border); }
+.ticket-wheel-pointer { position: absolute; z-index: 1; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border: 11px solid transparent; border-top: 20px solid var(--color-text); }
+.ticket-wheel-label { position: absolute; transform: translate(-50%, -50%); color: white; background: #151515b5; border-radius: 10px; padding: 1px 6px; font-size: var(--text-xs); white-space: nowrap; }
+.ticket-wheel-legend { list-style: none; padding: 0; display: grid; gap: var(--space-2); margin-bottom: var(--space-4); }
+.ticket-wheel-legend li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; }
+.ticket-wheel-swatch { width: 12px; height: 12px; border-radius: 50%; }
+.ticket-wheel-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.ticket-wheel-result { min-height: 1.5em; font-weight: 700; margin-top: var(--space-3); }
+@media (max-width: 690px) { .ticket-wheel-layout { grid-template-columns: minmax(0, 1fr); } .ticket-wheel-frame { width: min(100%, 280px); margin-inline: auto; } }

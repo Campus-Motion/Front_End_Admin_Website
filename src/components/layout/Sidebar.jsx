@@ -1,10 +1,15 @@
 import { Icon } from '../ui/Icons'
+import { pointsPreviewEnabled } from '../../config/pointsPreview'
 
 const NAV_ITEMS = [
   { id: 'news',      label: 'News',       icon: 'newspaper' },
   { id: 'events',    label: 'Events',     icon: 'calendar' },
   { id: 'users',     label: 'Users',      icon: 'users' },
   { id: 'locations', label: 'Locations',  icon: 'location' },
+  ...(pointsPreviewEnabled ? [
+    { id: 'points', label: 'Points & ranking', icon: 'users' },
+    { id: 'wheel', label: 'Ticket wheel', icon: 'refresh' },
+  ] : []),
   { id: 'audit',     label: 'Audit logs', icon: 'shield' },
 ]
 

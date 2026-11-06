@@ -3,6 +3,9 @@
  * Automatically attaches the JWT and handles JSON serialization.
  */
 
+import { pointsPreviewEnabled } from '../config/pointsPreview'
+import { http as demoHttp } from './pointsDemo'
+
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 function getHeaders(isFormData = false) {
@@ -14,6 +17,10 @@ function getHeaders(isFormData = false) {
 }
 
 async function request(method, path, body, isFormData = false) {
+  if (pointsPreviewEnabled) {
+    const operation = isFormData ? 'upload' : method.toLowerCase()
+    return demoHttp[operation](path, body)
+  }
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
     headers: getHeaders(isFormData),
