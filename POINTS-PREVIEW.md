@@ -17,10 +17,3 @@ A new month starts its own tickets automatically. Older data is retained.
 The points feature is development-only until backend integration is implemented.
 Production integration needs persistent event roles, validations, manual point records,
 server-side scoring and shared monthly draw data.
-
-## Using a staging API
-
-Set VITE_POINTS_ENABLED=true and VITE_API_URL to the staging API URL, then
-restart Vite or rebuild the frontend. The backend must include the admin points
-routes and have the points migration applied. Sign in as an admin to access the
-connected pages. The fictional preview remains available with npm run dev:points.

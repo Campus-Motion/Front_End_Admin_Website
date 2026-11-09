@@ -3,12 +3,10 @@ import './TicketWheel.css'
 
 const colors = ['#d9714f', '#477d9a', '#8775bd', '#45866b', '#b68738', '#a25979', '#5475bc']
 
-export function TicketWheel({ users, totals, title, savedWinner, drawTicket }) {
+export function TicketWheel({ users, totals, title }) {
   const [angle, setAngle] = useState(0)
   const [drawing, setDrawing] = useState(null)
   const [winner, setWinner] = useState(null)
-  const [requesting, setRequesting] = useState(false)
-  const [error, setError] = useState('')
   const timer = useRef(null)
   useEffect(() => () => clearTimeout(timer.current), [])
 
@@ -29,28 +27,10 @@ export function TicketWheel({ users, totals, title, savedWinner, drawTicket }) {
     ? 'conic-gradient(' + visible.map(segment => segment.color + ' ' + (segment.start / visibleTotal * 360) + 'deg ' + (segment.end / visibleTotal * 360) + 'deg').join(', ') + ')'
     : 'var(--color-surface-offset)'
 
-  async function spin() {
-    if (!total || drawing || requesting || savedWinner) return
-    setError('')
-    let ticket
-    let selected
-    if (drawTicket) {
-      setRequesting(true)
-      try {
-        const result = await drawTicket()
-        selected = segments.find(segment => segment.id === result.winnerKey)
-        if (!selected) return
-        ticket = (selected.start + selected.end - 1) / 2
-      } catch (err) {
-        setError(err.message)
-        return
-      } finally {
-        setRequesting(false)
-      }
-    } else {
-      ticket = Math.floor(Math.random() * total)
-      selected = segments.find(segment => ticket < segment.end)
-    }
+  function spin() {
+    if (!total || drawing) return
+    const ticket = Math.floor(Math.random() * total)
+    const selected = segments.find(segment => ticket < segment.end)
     const target = (ticket + 0.5) / total * 360
     const delta = (360 - target - angle % 360 + 360) % 360
     setWinner(null)
@@ -90,9 +70,9 @@ export function TicketWheel({ users, totals, title, savedWinner, drawTicket }) {
           </ul>
           {!visible.length && <p>No tickets in this round. Validate more points to add tickets.</p>}
           <div className="ticket-wheel-actions">
-            <button className="btn btn-primary" disabled={!total || !!drawing || requesting || !!savedWinner} onClick={spin}>Spin the wheel</button>
+            <button className="btn btn-primary" disabled={!total || !!drawing} onClick={spin}>Spin the wheel</button>
           </div>
-          <p className="ticket-wheel-result" role="status">{drawing || requesting ? 'Tirage…' : winner || savedWinner ? 'Gagnant : ' + (winner ?? savedWinner) : ''}</p>
+          <p className="ticket-wheel-result" role="status">{drawing ? 'Drawing…' : winner ? 'Winner: ' + winner : ''}</p>
         </div>
       </div>
     </section>
