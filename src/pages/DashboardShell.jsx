@@ -6,7 +6,8 @@ import { UsersPage }    from './UsersPage'
 import { LocationsPage} from './LocationsPage'
 import { AuditPage }    from './AuditPage'
 import { PointsPage } from './PointsPage'
-import { pointsPreviewEnabled } from '../config/pointsPreview'
+import { LivePointsPage } from './LivePointsPage'
+import { pointsLiveEnabled, pointsPreviewEnabled } from '../config/pointsPreview'
 
 export function DashboardShell({ user, onLogout }) {
   const [tab,    setTab]    = useState('news')
@@ -14,6 +15,7 @@ export function DashboardShell({ user, onLogout }) {
 
   const setCount = key => val => setCounts(c => ({ ...c, [key]: val }))
 
+  const showLivePoints = pointsLiveEnabled && user.role === 'admin'
   const pages = {
     news:      <NewsPage      onCountChange={setCount('news')}   />,
     events:    <EventsPage    onCountChange={setCount('events')} />,
@@ -22,6 +24,9 @@ export function DashboardShell({ user, onLogout }) {
     ...(pointsPreviewEnabled ? {
       points: <PointsPage key="points" onOpenEvents={() => setTab('events')} onOpenWheel={() => setTab('wheel')} />,
       wheel: <PointsPage key="wheel" wheelOnly />,
+    } : showLivePoints ? {
+      points: <LivePointsPage key="points" />,
+      wheel: <LivePointsPage key="wheel" wheelOnly />,
     } : {}),
     audit:     <AuditPage     onCountChange={setCount('audit')}  />,
   }
@@ -33,6 +38,7 @@ export function DashboardShell({ user, onLogout }) {
       activeTab={tab}
       onTabChange={setTab}
       counts={counts}
+      showPoints={pointsPreviewEnabled || showLivePoints}
     >
       {pages[tab]}
     </AppShell>

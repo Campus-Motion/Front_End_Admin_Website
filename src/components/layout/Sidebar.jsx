@@ -1,19 +1,18 @@
 import { Icon } from '../ui/Icons'
-import { pointsPreviewEnabled } from '../../config/pointsPreview'
 
 const NAV_ITEMS = [
   { id: 'news',      label: 'News',       icon: 'newspaper' },
   { id: 'events',    label: 'Events',     icon: 'calendar' },
   { id: 'users',     label: 'Users',      icon: 'users' },
   { id: 'locations', label: 'Locations',  icon: 'location' },
-  ...(pointsPreviewEnabled ? [
-    { id: 'points', label: 'Points & ranking', icon: 'users' },
-    { id: 'wheel', label: 'Ticket wheel', icon: 'refresh' },
-  ] : []),
-  { id: 'audit',     label: 'Audit logs', icon: 'shield' },
+  { id: 'audit', label: 'Audit logs', icon: 'shield' },
+]
+const POINTS_ITEMS = [
+  { id: 'points', label: 'Points & ranking', icon: 'users' },
+  { id: 'wheel', label: 'Ticket wheel', icon: 'refresh' },
 ]
 
-export function Sidebar({ activeTab, onTabChange, counts = {} }) {
+export function Sidebar({ activeTab, onTabChange, counts = {}, showPoints }) {
   return (
     <aside className="sidebar" role="navigation" aria-label="Admin sections">
       <div className="sidebar-section">
@@ -32,7 +31,7 @@ export function Sidebar({ activeTab, onTabChange, counts = {} }) {
       <div className="sidebar-section" style={{ marginTop: 'var(--space-4)' }}>
         <span className="sidebar-section-label">Management</span>
       </div>
-      {NAV_ITEMS.slice(2).map(item => (
+      {[...NAV_ITEMS.slice(2), ...(showPoints ? POINTS_ITEMS : [])].map(item => (
         <NavButton
           key={item.id}
           item={item}
