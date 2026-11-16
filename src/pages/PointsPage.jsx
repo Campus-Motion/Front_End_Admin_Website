@@ -14,6 +14,7 @@ function startDate(event) {
 
 export function PointsPage({ onOpenEvents, onOpenWheel, wheelOnly = false }) {
   const months = usePointsMonths()
+  const [sortOrder, setSortOrder] = useState('name')
   const [chosenMonth, setChosenMonth] = useState('')
   const month = months.includes(chosenMonth) ? chosenMonth : months[0]
   const [adjustments, setAdjustments] = useState(readAdjustments)
@@ -54,8 +55,16 @@ export function PointsPage({ onOpenEvents, onOpenWheel, wheelOnly = false }) {
   const selectedUser = available.some(user => String(user.id) === person) ? person : String(available[0]?.id ?? '')
   const totals = calculateTotals(events, points, adjustments, month)
   const totalFor = user => totals.get(String(user.id)) ?? 0
-  const ranked = [...users].sort((a, b) => totalFor(b) - totalFor(a) || a.username.localeCompare(b.username))
-  let rank = 0
+  const byName = (a, b) => a.username.localeCompare(b.username, 'fr-CH')
+  const ranked = [...users].sort((a, b) => totalFor(b) - totalFor(a) || byName(a, b))
+  const ranks = new Map()
+  ranked.forEach((user, index) => {
+    const total = totalFor(user)
+    if (!ranks.has(total)) ranks.set(total, index + 1)
+  })
+  const displayed = [...ranked]
+  if (sortOrder === 'name') displayed.sort(byName)
+  if (sortOrder === 'lowest') displayed.sort((a, b) => totalFor(a) - totalFor(b) || byName(a, b))
 
   function adjust(userId, delta) {
     try {
@@ -193,17 +202,24 @@ export function PointsPage({ onOpenEvents, onOpenWheel, wheelOnly = false }) {
               {months.map(key => <option key={key} value={key}>{monthLabel(key)}</option>)}
             </select>
           </label>
+          <label className="form-field">
+            <span className="form-label">Trier par</span>
+            <select className="form-select" value={sortOrder} onChange={event => setSortOrder(event.target.value)}>
+              <option value="name">Nom (ordre fixe)</option>
+              <option value="highest">Plus de points</option>
+              <option value="lowest">Moins de points</option>
+            </select>
+          </label>
           <div className="table-wrap"><table className="data-table">
             <thead><tr><th>Rank</th><th>Person</th><th>Points</th></tr></thead>
-            <tbody>{ranked.map((user, index) => {
+            <tbody>{displayed.map(user => {
               const total = totalFor(user)
-              if (!index || total !== totalFor(ranked[index - 1])) rank = index + 1
-              return <tr key={user.id}><td>{rank}</td><td className="cell-primary">{user.username}</td><td><div className="points-adjust">
+              return <tr key={user.id}><td>{ranks.get(total)}</td><td className="cell-primary">{user.username}</td><td><div className="points-adjust">
                 <button type="button" aria-label={'Retirer un point à ' + user.username} onClick={() => adjust(user.id, -1)}>−</button>
                 <span aria-live="polite">{total}</span>
                 <button type="button" aria-label={'Ajouter un point à ' + user.username} onClick={() => adjust(user.id, 1)}>+</button>
               </div></td></tr>
-            })}{ranked.length === 0 && <tr><td colSpan="3">No validated points yet.</td></tr>}</tbody>
+            })}{displayed.length === 0 && <tr><td colSpan="3">No validated points yet.</td></tr>}</tbody>
           </table></div>
           <p className="page-subtitle" style={{ marginTop: 'var(--space-4)' }}>Membre de l’asso (participant ou organisateur) +2 · Participant hors asso +3 · Organisateur hors asso +4</p>
         </section>
