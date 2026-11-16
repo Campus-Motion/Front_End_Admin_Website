@@ -1,4 +1,4 @@
-import { availableMonths } from '../domain/points.js'
+import { availableMonths, isParticipant } from '../domain/points.js'
 const key = 'campus-motion-points-preview-v1'
 const people = ['Inès Martin', 'Noah Diallo', 'Lina Bernard', 'Adam Petit', 'Jade Robert', 'Sami Laurent', 'Lou Garcia'].map((username, index) => ({
   id: index + 1, username, email: 'demo' + (index + 1) + '@example.invalid', role: 'user',
@@ -11,8 +11,8 @@ const seeds = {
     { id: 2, title: 'Initiation au badminton', type: 'badminton', start_time: '2026-11-06T17:30:00' },
   ],
   points: {
-    1: { validated: true, roles: { 1: 'member', 2: 'participant', 3: 'participant' } },
-    2: { validated: false, roles: { 1: 'participant', 2: 'participant', 3: 'participant', 4: 'participant', 5: 'external' } },
+    1: { validated: true, roles: { 1: 'member', 2: 'guest', 3: 'guest' } },
+    2: { validated: false, roles: { 1: 'guest', 2: 'guest', 3: 'guest', 4: 'guest', 5: 'external' } },
   },
   news: [{ id: 1, title: 'Bienvenue sur Campus Motion', body: 'Découvrez les prochaines activités du campus.', status: 'draft' }],
   locations: [{ id: 1, label: 'Centre sportif' }],
@@ -31,7 +31,7 @@ export function readAdjustments() { return structuredClone(data.adjustments ?? [
 export function addManualPoints(userId, month, amount, note) {
   if (!data.users.some(user => String(user.id) === String(userId))) throw new Error('Choose a person.')
   if (!availableMonths().includes(month)) throw new Error('Choose the current or previous month.')
-  if (!Number.isSafeInteger(amount) || amount <= 0 || amount > 100000) throw new Error('Enter a whole number from 1 to 100000.')
+  if (!Number.isSafeInteger(amount) || Math.abs(amount) !== 1) throw new Error('Adjust by one point at a time.')
   if (!note.trim()) throw new Error('Enter a reason.')
   const item = { id: crypto.randomUUID(), userId: String(userId), month, amount, note: note.trim(), createdAt: new Date().toISOString() }
   save({ ...data, adjustments: [...(data.adjustments ?? []), item] })
@@ -49,7 +49,7 @@ async function request(method, path, body) {
   if (!Array.isArray(items)) throw new Error('Unavailable in this local demo.')
   if (collection === 'events' && action === 'participants') {
     const roles = data.points[id]?.roles ?? {}
-    return { data: data.users.filter(user => roles[user.id] === 'participant'), meta: { total: Object.values(roles).filter(role => role === 'participant').length } }
+    return { data: data.users.filter(user => isParticipant(roles[user.id])), meta: { total: Object.values(roles).filter(isParticipant).length } }
   }
   if (method === 'GET') {
     if (id && collection !== 'admin' && id !== 'admin') return items.find(item => String(item.id) === id)

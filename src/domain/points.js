@@ -1,5 +1,11 @@
-export const participantCount = entries => Object.values(entries).filter(role => role === 'participant').length
-export const score = (role, participants) => ({ participant: 2, member: participants >= 4 ? 2 : 1, external: participants >= 4 ? 3 : 0 })[role]
+export const roles = {
+  participant: 'Participant de l’asso',
+  guest: 'Participant hors asso',
+  member: 'Organisateur de l’asso',
+  external: 'Organisateur hors asso',
+}
+export const isParticipant = role => role === 'participant' || role === 'guest'
+export const score = role => ({ participant: 2, guest: 3, member: 2, external: 4 })[role]
 
 export function monthKey(date = new Date()) {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich', year: 'numeric', month: '2-digit' }).formatToParts(date)
@@ -20,8 +26,7 @@ export function calculateTotals(events, points, adjustments, month) {
     const entry = points[event.id]
     if (!entry?.validated) continue
     if (month && (!event.start_time || monthKey(new Date(event.start_time)) !== month)) continue
-    const participants = participantCount(entry.roles)
-    for (const [id, role] of Object.entries(entry.roles)) add(id, score(role, participants))
+    for (const [id, role] of Object.entries(entry.roles)) add(id, score(role))
   }
   for (const item of adjustments) {
     if (!month || item.month === month) add(item.userId, item.amount)

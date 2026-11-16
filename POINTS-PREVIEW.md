@@ -6,13 +6,16 @@ Open Management → Points & ranking or Ticket wheel.
 npm run dev keeps the existing authentication and server API.
 npm run build disables the preview, including when VITE_POINTS_DEMO is true.
 
-Each event has one role per person. Participant +2. Association organiser +1,
-or +2 with four participants. External organiser +3 with four participants, otherwise 0.
-Validated points and manual additions feed the ranking.
-Event dates determine monthly tickets in Europe/Zurich.
-The wheel shows the current and previous month. One point gives one ticket.
-Manual additions require a person, a month, an integer and a reason.
-A new month starts its own tickets automatically. Older data is retained.
+Points & ranking groups pending and validated events by date, for the current
+and previous month in Europe/Zurich. Open a row to review the roster and roles.
+Association participants and organisers earn 2 points, external participants
+earn 3, and external organisers earn 4. Event points count after validation.
+
+The monthly ranking supports +1 and −1 corrections for either displayed month.
+One positive point gives one ticket. Each monthly wheel supports removing a
+winner from subsequent draws and restoring them. Exclusions are saved locally
+per month and affect draw eligibility. Names follow the radius of their slice.
+Older activity data is retained.
 
 The points feature is development-only until backend integration is implemented.
 Production integration needs persistent event roles, validations, manual point records,
