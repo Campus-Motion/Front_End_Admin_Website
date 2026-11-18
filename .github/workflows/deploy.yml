@@ -39,4 +39,5 @@ jobs:
         VITE_API_URL=https://api.campusmotion.ch
       production-build-args: |
         VITE_API_URL=https://api.campusmotion.ch
-    secrets: inherit
+    secrets:
+      PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
