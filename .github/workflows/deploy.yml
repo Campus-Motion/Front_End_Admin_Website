@@ -1,0 +1,42 @@
+# Deploys this site with the shared Campus Motion pipeline.
+# How to use it: https://github.com/Campus-Motion/deploy#day-to-day-everyone
+
+name: Deploy
+
+on:
+  push:
+    branches: [main, production]
+  workflow_dispatch:
+    inputs:
+      action:
+        description: What to do
+        type: choice
+        options:
+          - promote-to-production
+          - rollback-production
+          - rollback-staging
+      version:
+        description: For a rollback only, the commit to go back to (at least 7 characters of its SHA)
+        type: string
+        required: false
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  pipeline:
+    uses: Campus-Motion/deploy/.github/workflows/pipeline.yml@v1
+    with:
+      site: admin-website
+      action: ${{ inputs.action || 'push' }}
+      version: ${{ inputs.version }}
+      staging-url: https://admin.staging.campusmotion.ch
+      production-url: https://admin.campusmotion.ch
+      # VITE_API_URL is built into the site. Staging uses the production API
+      # until the back end has its own staging copy.
+      staging-build-args: |
+        VITE_API_URL=https://api.campusmotion.ch
+      production-build-args: |
+        VITE_API_URL=https://api.campusmotion.ch
+    secrets: inherit
