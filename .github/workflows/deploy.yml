@@ -33,8 +33,10 @@ jobs:
       version: ${{ inputs.version }}
       staging-url: https://admin.staging.campusmotion.ch
       production-url: https://admin.campusmotion.ch
-      # VITE_API_URL is built into the site. Staging has no API until the back
-      # end has a staging copy with test data: never point it at production.
+      # VITE_API_URL is built into the site. Staging uses the staging API, which
+      # has test data only: never point it at production.
+      staging-build-args: |
+        VITE_API_URL=https://api.staging.campusmotion.ch
       production-build-args: |
         VITE_API_URL=https://api.campusmotion.ch
     secrets:
